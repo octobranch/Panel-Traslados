@@ -1,33 +1,37 @@
-/* Variables CSS y Configuración Avanzada */
+/* Variables CSS Avanzadas */
 :root {
     --primary-color: #007BFF;
     --secondary-color: #00C9FF;
-    --dark-bg: #121212;
-    --surface-color: #1e1e1e;
-    --neon-effect: 0 0 15px rgba(0, 123, 255, 0.5);
+    --dark-bg: rgba(18, 18, 18, 0.95);
+    --surface-color: rgba(30, 30, 30, 0.8);
+    --neon-effect: 0 0 25px rgba(0, 123, 255, 0.3);
     --gradient-start: #007BFF;
     --gradient-end: #00C9FF;
     --matrix-green: #00ff88;
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --text-primary: rgba(255, 255, 255, 0.95);
 }
 
+/* Reset y Estilos Base */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
     -webkit-tap-highlight-color: transparent;
 }
 
 body {
     background: linear-gradient(45deg, #0a0a0a, #1a1a1a);
-    color: #ffffff;
+    color: var(--text-primary);
     min-height: 100vh;
     padding: 20px;
     position: relative;
     overflow-x: hidden;
+    line-height: 1.6;
 }
 
-/* Efecto Matrix (opcional) */
+/* Efecto de Partículas Animadas */
 body::before {
     content: '';
     position: fixed;
@@ -35,154 +39,143 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: repeating-linear-gradient(
-        0deg,
-        rgba(0, 255, 136, 0.1) 0px,
-        rgba(0, 255, 136, 0.1) 1px,
-        transparent 1px,
-        transparent 2px
-    );
-    pointer-events: none;
-    z-index: -1;
-    opacity: 0.1;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(0, 123, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0, 201, 255, 0.1) 0%, transparent 50%);
+    animation: particle-move 20s linear infinite;
+    z-index: -2;
 }
 
-/* Encabezado Holográfico */
-header {
-    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-    padding: 1.5rem;
-    border-radius: 15px;
-    margin: 20px auto;
-    max-width: 1200px;
+@keyframes particle-move {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(100px, 50px); }
+}
+
+/* Barra Lateral Holográfica */
+.sidebar {
+    background: var(--dark-bg);
+    backdrop-filter: blur(15px);
+    width: 280px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--glass-border);
+    box-shadow: 2px 0 30px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+}
+
+.sidebar h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    padding-left: 10px;
+}
+
+.sidebar h2::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background: var(--secondary-color);
+    border-radius: 2px;
+}
+
+/* Botones de la Barra Lateral */
+.sidebar button {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--glass-border);
+    padding: 1rem 1.5rem;
+    margin: 0.5rem 0;
+    cursor: pointer;
+    border-radius: 12px;
+    width: 100%;
+    transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-    transition: transform 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.sidebar button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.1), 
+        transparent);
+    transition: 0.5s;
+}
+
+.sidebar button:hover::before {
+    left: 100%;
+}
+
+.sidebar button.active {
+    background: rgba(0, 123, 255, 0.15);
+    border-color: var(--primary-color);
     box-shadow: var(--neon-effect);
 }
 
-header::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-        45deg,
-        transparent 25%,
-        rgba(255,255,255,0.1) 50%,
-        transparent 75%
-    );
-    transform: rotate(45deg);
-    animation: shine 6s infinite linear;
+/* Contenido Principal con Efecto Parallax */
+.content {
+    margin-left: 280px;
+    padding: 2rem;
+    position: relative;
+    min-height: 100vh;
 }
 
-@keyframes shine {
-    0% { transform: translateX(-100%) rotate(45deg); }
-    100% { transform: translateX(100%) rotate(45deg); }
+/* Encabezado Flotante */
+header {
+    background: var(--surface-color);
+    backdrop-filter: blur(20px);
+    padding: 2rem;
+    border-radius: 20px;
+    margin: 2rem auto;
+    max-width: 1200px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--glass-border);
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease;
+}
+
+header:hover {
+    transform: translateY(-5px) scale(1.02);
 }
 
 h1 {
     font-size: 2.5rem;
-    margin-bottom: 1rem;
     font-weight: 800;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
     position: relative;
-    background: linear-gradient(45deg, #fff, #00C9FF);
+    background: linear-gradient(45deg, #fff, var(--secondary-color));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    text-shadow: 0 4px 15px rgba(0, 201, 255, 0.2);
 }
 
-/* Botones Holográficos */
-.buttons {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 1rem;
-    padding: 1rem;
-}
-
-button {
-    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-    color: white;
-    padding: 1rem 2rem;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    border-radius: 50px;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    position: relative;
-    overflow: hidden;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.1);
-}
-
-button::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-        45deg,
-        transparent 20%,
-        rgba(255,255,255,0.2) 50%,
-        transparent 80%
-    );
-    transform: rotate(45deg);
-    transition: all 0.5s;
-}
-
-button:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
-}
-
-button:active {
-    transform: translateY(0) scale(0.98);
-}
-
-button.active {
-    background: linear-gradient(135deg, #0056b3, #008dc9);
-    box-shadow: inset 0 4px 15px rgba(0,0,0,0.3);
-}
-
-/* Búsqueda Futurista */
-.search-container {
-    position: relative;
-    max-width: 600px;
-    margin: 2rem auto;
-}
-
-input {
-    width: 100%;
-    padding: 1rem 2rem;
-    border-radius: 50px;
-    border: 2px solid var(--primary-color);
-    background: rgba(30, 30, 30, 0.8);
-    color: white;
-    font-size: 1.1rem;
-    transition: all 0.3s;
-    backdrop-filter: blur(10px);
-}
-
-input:focus {
-    border-color: var(--secondary-color);
-    box-shadow: 0 0 25px rgba(0, 201, 255, 0.3);
-    background: rgba(30, 30, 30, 0.95);
-    padding: 1rem 2.5rem;
-}
-
-/* Tabla con Efecto de Cristal */
+/* Tabla Holográfica */
 .table-container {
-    background: rgba(30, 30, 30, 0.6);
-    border-radius: 15px;
+    background: var(--surface-color);
     backdrop-filter: blur(15px);
-    border: 1px solid rgba(255,255,255,0.1);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-    margin: 2rem auto;
-    max-width: 1200px;
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
     overflow: hidden;
+    position: relative;
 }
 
 table {
@@ -193,79 +186,155 @@ table {
 
 th {
     background: linear-gradient(135deg, 
-        rgba(0, 123, 255, 0.8), 
-        rgba(0, 201, 255, 0.8));
-    backdrop-filter: blur(10px);
+        rgba(0, 123, 255, 0.2), 
+        rgba(0, 201, 255, 0.2));
     padding: 1.5rem;
-    position: sticky;
-    top: 0;
-    z-index: 2;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    backdrop-filter: blur(10px);
 }
 
 td {
     padding: 1.2rem;
-    background: rgba(30, 30, 30, 0.4);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    transition: all 0.3s;
+    border-bottom: 1px solid var(--glass-border);
+    transition: all 0.3s ease;
 }
 
 tr:hover td {
-    background: rgba(0, 123, 255, 0.1);
-    transform: translateX(10px);
+    background: rgba(0, 123, 255, 0.05);
+    transform: translateX(15px);
 }
 
-/* Efecto de Carga Dinámico */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.table-container {
-    animation: fadeIn 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-/* Indicadores de Estado Animados */
+/* Indicadores de Estado Mejorados */
 .status-indicator {
     display: inline-block;
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     margin-right: 8px;
-    animation: pulse 1.5s infinite;
+    position: relative;
+}
+
+.status-indicator::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7); }
-    70% { box-shadow: 0 0 0 10px rgba(0, 255, 136, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
+    0% { transform: scale(0.8); opacity: 0.5; }
+    50% { transform: scale(1.2); opacity: 0.2; }
+    100% { transform: scale(0.8); opacity: 0.5; }
 }
 
 .status-active { background: var(--matrix-green); }
-.status-inactive { background: #ff4757; }
+.status-active::after { box-shadow: 0 0 15px var(--matrix-green); }
 
-/* Responsive Design Mejorado */
-@media (max-width: 768px) {
-    .buttons {
-        grid-template-columns: 1fr;
+.status-inactive { background: #ff4757; }
+.status-inactive::after { box-shadow: 0 0 15px #ff4757; }
+
+/* Búsqueda Flotante */
+.search-container {
+    position: relative;
+    max-width: 600px;
+    margin: 2rem auto;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 1.2rem 2.5rem;
+    border: none;
+    border-radius: 50px;
+    background: var(--surface-color);
+    backdrop-filter: blur(10px);
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.search-container input:focus {
+    outline: none;
+    box-shadow: 0 0 30px rgba(0, 201, 255, 0.3);
+    background: rgba(30, 30, 30, 0.95);
+}
+
+.search-container::after {
+    content: '🔍';
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.6;
+}
+
+/* Diseño Responsivo Mejorado */
+@media (max-width: 1024px) {
+    .sidebar {
+        transform: translateX(-100%);
+        width: 300px;
     }
     
-    th, td {
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .content {
+        margin-left: 0;
         padding: 1rem;
-        font-size: 0.9rem;
+    }
+    
+    header {
+        margin: 1rem 0;
+        padding: 1.5rem;
     }
     
     h1 {
         font-size: 2rem;
     }
     
-    input {
-        font-size: 1rem;
+    .table-container {
+        overflow-x: auto;
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    * {
-        transition: none !important;
-        animation: none !important;
+/* Menú Hamburguesa para móviles */
+.menu-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1001;
+    display: none;
+    background: var(--surface-color);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+}
+
+@media (max-width: 1024px) {
+    .menu-toggle {
+        display: block;
     }
+}
+
+/* Efectos de Scroll Suave */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Animaciones de Entrada */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.content > * {
+    animation: fadeIn 0.6s ease-out forwards;
 }
