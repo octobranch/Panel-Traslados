@@ -7,12 +7,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const loadingSpinner = document.querySelector("#loading-spinner");
     const menuToggle = document.querySelector(".menu-toggle");
     const sidebar = document.querySelector(".sidebar");
-
-    // Configuración de Sheets
+    
+    // Configuración de API
+    const API_KEY = "TU_CLAVE_DE_API_AQUI";
     const SHEET_ID = "1ogbq09mEZw8njgkFLxkdETp-CZjqHFfgKm46sHzApuQ";
     const SHEET_TODAY = "Hoja1";
     const SHEET_TOMORROW = "Hoja2";
-
+    
     let activeSheet = SHEET_TODAY;
     let isMobile = window.innerWidth <= 1024;
 
@@ -40,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const fetchData = async () => {
         loadingSpinner.style.display = "block";
         try {
-            const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${activeSheet}`;
+            const url = https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${activeSheet}?key=${API_KEY};
             const response = await fetch(url);
             const data = await response.json();
 
@@ -62,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
         data.slice(1).forEach((row, index) => {
             const tr = document.createElement("tr");
-            tr.innerHTML = `
+            tr.innerHTML = 
                 <td>${row[0] || ""}</td>
                 <td>${row[1] || ""}</td>
                 <td>${row[2] || ""}</td>
@@ -74,8 +75,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 <td>${row[8] || ""}</td>
                 <td>${row[9] || ""}</td>
                 <td>${row[10] || ""}</td>
-            `;
-            tr.style.animationDelay = `${index * 0.05}s`;
+            ;
+            tr.style.animationDelay = ${index * 0.05}s;
             tableBody.appendChild(tr);
         });
     }
@@ -95,10 +96,10 @@ document.addEventListener("DOMContentLoaded", function () {
     function showErrorNotification(message) {
         const notification = document.createElement("div");
         notification.className = "error-notification";
-        notification.innerHTML = `
+        notification.innerHTML = 
             <span class="notification-icon">⚠️</span>
             <span>${message}</span>
-        `;
+        ;
         document.body.appendChild(notification);
         
         setTimeout(() => {
@@ -112,15 +113,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 100);
     }
 
-    // Cambiar hoja (Hoy/Mañana)
-    function changeSheet(sheet) {
-        activeSheet = sheet;
-        fetchData();
-        btnToday.classList.toggle("active", sheet === SHEET_TODAY);
-        btnTomorrow.classList.toggle("active", sheet === SHEET_TOMORROW);
-        closeMobileMenu();
-    }
-
     // Event Listeners
     searchInput.addEventListener("input", function () {
         const query = this.value.toLowerCase();
@@ -130,8 +122,21 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    btnToday.addEventListener("click", () => changeSheet(SHEET_TODAY));
-    btnTomorrow.addEventListener("click", () => changeSheet(SHEET_TOMORROW));
+    btnToday.addEventListener("click", function () {
+        activeSheet = SHEET_TODAY;
+        this.classList.add("active");
+        btnTomorrow.classList.remove("active");
+        closeMobileMenu();
+        fetchData();
+    });
+
+    btnTomorrow.addEventListener("click", function () {
+        activeSheet = SHEET_TOMORROW;
+        this.classList.add("active");
+        btnToday.classList.remove("active");
+        closeMobileMenu();
+        fetchData();
+    });
 
     // Inicialización
     fetchData();
