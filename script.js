@@ -7,13 +7,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const loadingSpinner = document.querySelector("#loading-spinner");
     const menuToggle = document.querySelector(".menu-toggle");
     const sidebar = document.querySelector(".sidebar");
-    
-    // Configuración de API
-    const API_KEY = "TU_CLAVE_DE_API_AQUI";
+
+    // Configuración de Sheets
     const SHEET_ID = "1ogbq09mEZw8njgkFLxkdETp-CZjqHFfgKm46sHzApuQ";
     const SHEET_TODAY = "Hoja1";
     const SHEET_TOMORROW = "Hoja2";
-    
+
     let activeSheet = SHEET_TODAY;
     let isMobile = window.innerWidth <= 1024;
 
@@ -41,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const fetchData = async () => {
         loadingSpinner.style.display = "block";
         try {
-            const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${activeSheet}?key=${API_KEY}`;
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${activeSheet}`;
             const response = await fetch(url);
             const data = await response.json();
 
@@ -113,6 +112,15 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 100);
     }
 
+    // Cambiar hoja (Hoy/Mañana)
+    function changeSheet(sheet) {
+        activeSheet = sheet;
+        fetchData();
+        btnToday.classList.toggle("active", sheet === SHEET_TODAY);
+        btnTomorrow.classList.toggle("active", sheet === SHEET_TOMORROW);
+        closeMobileMenu();
+    }
+
     // Event Listeners
     searchInput.addEventListener("input", function () {
         const query = this.value.toLowerCase();
@@ -122,21 +130,8 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    btnToday.addEventListener("click", function () {
-        activeSheet = SHEET_TODAY;
-        this.classList.add("active");
-        btnTomorrow.classList.remove("active");
-        closeMobileMenu();
-        fetchData();
-    });
-
-    btnTomorrow.addEventListener("click", function () {
-        activeSheet = SHEET_TOMORROW;
-        this.classList.add("active");
-        btnToday.classList.remove("active");
-        closeMobileMenu();
-        fetchData();
-    });
+    btnToday.addEventListener("click", () => changeSheet(SHEET_TODAY));
+    btnTomorrow.addEventListener("click", () => changeSheet(SHEET_TOMORROW));
 
     // Inicialización
     fetchData();
