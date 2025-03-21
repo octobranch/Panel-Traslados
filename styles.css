@@ -1,131 +1,271 @@
-/* Reset y Configuración General */
+/* Variables CSS y Configuración Avanzada */
+:root {
+    --primary-color: #007BFF;
+    --secondary-color: #00C9FF;
+    --dark-bg: #121212;
+    --surface-color: #1e1e1e;
+    --neon-effect: 0 0 15px rgba(0, 123, 255, 0.5);
+    --gradient-start: #007BFF;
+    --gradient-end: #00C9FF;
+    --matrix-green: #00ff88;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
-    background-color: #121212;
+    background: linear-gradient(45deg, #0a0a0a, #1a1a1a);
     color: #ffffff;
-    text-align: center;
+    min-height: 100vh;
     padding: 20px;
+    position: relative;
+    overflow-x: hidden;
 }
 
-/* Encabezado */
+/* Efecto Matrix (opcional) */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 255, 136, 0.1) 0px,
+        rgba(0, 255, 136, 0.1) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.1;
+}
+
+/* Encabezado Holográfico */
 header {
-    background: linear-gradient(135deg, #007BFF, #00C9FF);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin: 20px auto;
+    max-width: 1200px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    box-shadow: var(--neon-effect);
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 25%,
+        rgba(255,255,255,0.1) 50%,
+        transparent 75%
+    );
+    transform: rotate(45deg);
+    animation: shine 6s infinite linear;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) rotate(45deg); }
 }
 
 h1 {
-    font-size: 2rem;
-    margin-bottom: 10px;
-    font-weight: bold;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 800;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    position: relative;
+    background: linear-gradient(45deg, #fff, #00C9FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-/* Botones */
+/* Botones Holográficos */
 .buttons {
-    margin: 15px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
 }
 
 button {
-    background: #007BFF;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
     color: white;
-    padding: 12px 20px;
+    padding: 1rem 2rem;
     border: none;
     cursor: pointer;
     font-size: 1rem;
-    margin: 5px;
-    border-radius: 8px;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0px 4px 6px rgba(0, 123, 255, 0.3);
+    border-radius: 50px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+button::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 20%,
+        rgba(255,255,255,0.2) 50%,
+        transparent 80%
+    );
+    transform: rotate(45deg);
+    transition: all 0.5s;
 }
 
 button:hover {
-    background: #0056b3;
-    transform: scale(1.05);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
+}
+
+button:active {
+    transform: translateY(0) scale(0.98);
 }
 
 button.active {
-    background: #0056b3;
+    background: linear-gradient(135deg, #0056b3, #008dc9);
+    box-shadow: inset 0 4px 15px rgba(0,0,0,0.3);
 }
 
-/* Barra de búsqueda */
+/* Búsqueda Futurista */
+.search-container {
+    position: relative;
+    max-width: 600px;
+    margin: 2rem auto;
+}
+
 input {
-    width: 90%;
-    padding: 10px;
-    margin-top: 15px;
-    border-radius: 8px;
-    border: 2px solid #007BFF;
-    background: #1e1e1e;
+    width: 100%;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    border: 2px solid var(--primary-color);
+    background: rgba(30, 30, 30, 0.8);
     color: white;
-    text-align: center;
-    font-size: 1rem;
+    font-size: 1.1rem;
     transition: all 0.3s;
+    backdrop-filter: blur(10px);
 }
 
 input:focus {
-    border-color: #00C9FF;
-    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 25px rgba(0, 201, 255, 0.3);
+    background: rgba(30, 30, 30, 0.95);
+    padding: 1rem 2.5rem;
 }
 
-/* Contenedor de la tabla */
+/* Tabla con Efecto de Cristal */
 .table-container {
-    overflow-x: auto;
-    margin: 20px;
+    background: rgba(30, 30, 30, 0.6);
+    border-radius: 15px;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    margin: 2rem auto;
+    max-width: 1200px;
+    overflow: hidden;
 }
 
-/* Tablas */
 table {
     width: 100%;
     border-collapse: collapse;
-    background: #1e1e1e;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-th, td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
 }
 
 th {
-    background: linear-gradient(135deg, #007BFF, #00C9FF);
-    color: white;
-    font-weight: bold;
+    background: linear-gradient(135deg, 
+        rgba(0, 123, 255, 0.8), 
+        rgba(0, 201, 255, 0.8));
+    backdrop-filter: blur(10px);
+    padding: 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 2;
 }
 
-tr:hover {
-    background: rgba(0, 123, 255, 0.2);
+td {
+    padding: 1.2rem;
+    background: rgba(30, 30, 30, 0.4);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
     transition: all 0.3s;
 }
 
-/* Estilos Responsivos */
+tr:hover td {
+    background: rgba(0, 123, 255, 0.1);
+    transform: translateX(10px);
+}
+
+/* Efecto de Carga Dinámico */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.table-container {
+    animation: fadeIn 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Indicadores de Estado Animados */
+.status-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(0, 255, 136, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
+}
+
+.status-active { background: var(--matrix-green); }
+.status-inactive { background: #ff4757; }
+
+/* Responsive Design Mejorado */
 @media (max-width: 768px) {
-    h1 {
-        font-size: 1.5rem;
+    .buttons {
+        grid-template-columns: 1fr;
     }
-
-    input {
-        width: 95%;
-    }
-
-    button {
-        width: 45%;
+    
+    th, td {
+        padding: 1rem;
         font-size: 0.9rem;
     }
-
-    table {
-        font-size: 14px;
+    
+    h1 {
+        font-size: 2rem;
     }
+    
+    input {
+        font-size: 1rem;
+    }
+}
 
-    th, td {
-        padding: 10px;
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
     }
 }
