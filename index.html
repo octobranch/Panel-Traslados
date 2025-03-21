@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Traslados</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <h1>Panel de Traslados</h1>
+        <div class="buttons">
+            <button id="btnToday" class="active">Hoy</button>
+            <button id="btnTomorrow">Mañana</button>
+        </div>
+        <input type="text" id="search" placeholder="Buscar...">
+    </header>
+
+    <main>
+        <div class="table-container">
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th>N.S</th>
+                        <th>ID</th>
+                        <th>SERVICIO</th>
+                        <th>HR</th>
+                        <th>ORIGEN</th>
+                        <th>DESCRIPCIÓN</th>
+                        <th>PAX</th>
+                        <th>DESTINO</th>
+                        <th>DRIVER</th>
+                        <th>UNIDAD</th>
+                        <th>COMENTARIOS</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
